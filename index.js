@@ -27,7 +27,7 @@ negative.addEventListener('click', (e) => {
 })
 
 percent.addEventListener('click', (e) => {
-  // if running value use it, else use 1
+
   if (runningValue) {
     inputValue = runningValue * Number(inputValue)/100;
   } else {
@@ -39,33 +39,40 @@ percent.addEventListener('click', (e) => {
 
 digits.forEach(btn => {
   btn.addEventListener('click', (e) => {
-    console.log(inputValue)
-    if (inputValue === '-0') {
-      inputValue = "-" + e.target.value;
-    } else if (inputValue === '0') {
-      console.log('here !!!')
-      inputValue = e.target.value;
-    } else {
-      inputValue += e.target.value;
-    }
-    view.innerHTML = inputValue;
+    digitInput(e.target.value);
   })
 })
 
 operations.forEach(btn => {
   btn.addEventListener('click', (e) => {
-    operation = e.path[0].id !== 'equals' ? e.path[0].id: operation;
-
-    if ( runningValue ) {
-      calRunningValue(runningValue, Number(inputValue), operation)
-    } else if (total) {
-      calRunningValue(total, Number(inputValue), operation)
-    } else {
-      runningValue = Number(inputValue)
-    }
-    inputValue = '';
+    operationInput(e.path[0].id)
   })
 })
+
+const digitInput = (digit) => {
+
+    if (inputValue === '-0') {
+      inputValue = "-" + digit;
+    } else if (inputValue === '0') {
+      console.log('here !!!')
+      inputValue = digit;
+    } else {
+      inputValue += digit;
+    }
+    view.innerHTML = inputValue;
+}
+
+const operationInput = (type) => {
+  operation = type !== 'equals' ? type: operation;
+  if ( runningValue ) {
+    calRunningValue(runningValue, Number(inputValue), operation)
+  } else if (total) {
+    calRunningValue(total, Number(inputValue), operation)
+  } else {
+    runningValue = Number(inputValue)
+  }
+  inputValue = '';
+}
 
 const calRunningValue = (running, input, operation) => {
   switch(operation) {
@@ -88,3 +95,57 @@ const calRunningValue = (running, input, operation) => {
   view.innerHTML = runningValue
   inputValue = '';
 }
+
+document.addEventListener('keypress', (e) => {
+
+  switch(e.key) {
+    case '.':
+      digitInput(e.key)
+      break;
+    case '0':
+      digitInput(e.key)
+      break;
+    case '1':
+      digitInput(e.key)
+      break;
+    case '2':
+      digitInput(e.key)
+      break;
+    case '3':
+      digitInput(e.key)
+      break;
+    case '4':
+      digitInput(e.key)
+      break;
+    case '5':
+      digitInput(e.key)
+      break;
+    case '6':
+      digitInput(e.key)
+      break;
+    case '7':
+      digitInput(e.key)
+      break;
+    case '8':
+      digitInput(e.key)
+      break;
+    case '9':
+      digitInput(e.key)
+      break;
+    case '/':
+      operationInput('divide')
+      break;
+    case '*':
+      operationInput('multiply')
+      break;
+    case '-':
+      operationInput('subtract')
+      break;
+    case '+':
+      operationInput('add')
+      break;
+    case 'Enter':
+      operationInput('equals')
+      break;
+  }
+})
