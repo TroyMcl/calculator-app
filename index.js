@@ -25,9 +25,11 @@ digits.forEach(btn => {
 operations.forEach(btn => {
   btn.addEventListener('click', (e) => {
     operation = e.path[0].id !== 'equals' ? e.path[0].id: operation;
-    console.log(operation)
+
     if ( runningValue ) {
       calRunningValue(runningValue, Number(inputValue), operation)
+    } else if (total) {
+      calRunningValue(total, Number(inputValue), operation)
     } else {
       runningValue = Number(inputValue)
     }
@@ -41,19 +43,16 @@ const calRunningValue = (running, input, operation) => {
       runningValue = running - input;
       break;
     case 'divide':
-      runningValue = running / input;
+      runningValue = running / (input || 1);
       break;
     case 'multiply':
-      runningValue = running * input;
+      runningValue = running * (input || 1);
       break;
     case 'add':
       runningValue = running + input;
       break;
     case 'equals':
-      console.log(running, input, operation)
       total = running;
-      // runningValue = running;
-      console.log('total', display)
       break;
   }
   view.innerHTML = runningValue
