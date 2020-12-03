@@ -8,6 +8,7 @@ let operations = document.querySelectorAll(".operation")
 let view = document.getElementById('view')
 let clear = document.getElementById('clear');
 let negative = document.getElementById('negative')
+let percent = document.getElementById('percent');
 
 clear.addEventListener('click', (e) => {
   runningValue = null;
@@ -25,11 +26,24 @@ negative.addEventListener('click', (e) => {
   view.innerHTML = inputValue;
 })
 
+percent.addEventListener('click', (e) => {
+  // if running value use it, else use 1
+  if (runningValue) {
+    inputValue = runningValue * Number(inputValue)/100;
+  } else {
+    inputValue = 1 * Number(inputValue)/100;
+  }
+  let base = runningValue || 1;
+  calRunningValue(base, inputValue, operation)
+})
+
 digits.forEach(btn => {
   btn.addEventListener('click', (e) => {
+    console.log(inputValue)
     if (inputValue === '-0') {
       inputValue = "-" + e.target.value;
-    } else if (inputValue = '0') {
+    } else if (inputValue === '0') {
+      console.log('here !!!')
       inputValue = e.target.value;
     } else {
       inputValue += e.target.value;
