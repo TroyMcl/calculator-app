@@ -7,6 +7,7 @@ let digits = document.querySelectorAll(".digit");
 let operations = document.querySelectorAll(".operation")
 let view = document.getElementById('view')
 let clear = document.getElementById('clear');
+let negative = document.getElementById('negative')
 
 clear.addEventListener('click', (e) => {
   runningValue = null;
@@ -15,9 +16,24 @@ clear.addEventListener('click', (e) => {
   view.innerHTML = 0;
 })
 
+negative.addEventListener('click', (e) => {
+  if (inputValue === '0' || inputValue === '') {
+    inputValue = '-0'
+  } else {
+    inputValue = (Number(inputValue) * -1).toString();
+  }
+  view.innerHTML = inputValue;
+})
+
 digits.forEach(btn => {
   btn.addEventListener('click', (e) => {
-    inputValue += e.target.value
+    if (inputValue === '-0') {
+      inputValue = "-" + e.target.value;
+    } else if (inputValue = '0') {
+      inputValue = e.target.value;
+    } else {
+      inputValue += e.target.value;
+    }
     view.innerHTML = inputValue;
   })
 })
